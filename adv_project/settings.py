@@ -98,8 +98,8 @@ WSGI_APPLICATION = 'adv_project.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-print(DATABASES['default'])
+#DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES['default'] = dj_database_url.parse('postgres://glqvknzatlyrki:d0cace2ddae19cc7e8fadf725f23f29dffd072bc00ce3ebb53e6e161def4cf0d@ec2-54-88-130-244.compute-1.amazonaws.com:5432/d8j2q4up4qlss', conn_max_age=600)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
