@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 # from pusher import Pusher
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from decouple import config
 from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+from .world import World
 
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
@@ -22,6 +23,22 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
+@csrf_exempt
+@api_view(["POST"])
+def create_world(request):
+    data = request.data
+    try:
+        seed = data['seed']
+    except KeyError as ke:
+        seed = None
+    finally:
+        Room.objects.all().delete()
+
+    world = World(seed=seed)
+    world.save()
+
+    return HttpResponse(status_code=200)
+
 
 @csrf_exempt
 @api_view(["POST"])
@@ -36,13 +53,25 @@ def move(request):
     room = player.room()
     nextRoomID = None
     if direction == "n":
-        nextRoomID = room.n_to
+        if world.check_room(curr_room=room, direction=direction):
+            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+        else:
+            nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     elif direction == "s":
-        nextRoomID = room.s_to
+        if world.check_room(curr_room=room, direction=direction):
+            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+        else:
+            nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     elif direction == "e":
-        nextRoomID = room.e_to
+        if world.check_room(curr_room=room, direction=direction):
+            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+        else:
+            nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     elif direction == "w":
-        nextRoomID = room.w_to
+        if world.check_room(curr_room=room, direction=direction):
+            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+        else:
+            nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     if nextRoomID is not None and nextRoomID > 0:
         nextRoom = Room.objects.get(id=nextRoomID)
         player.currentRoom=nextRoomID
@@ -58,7 +87,6 @@ def move(request):
     else:
         players = room.playerNames(player_id)
         return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
-
 
 @csrf_exempt
 @api_view(["POST"])
