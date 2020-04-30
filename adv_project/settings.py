@@ -33,14 +33,14 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', '.herokuapp.com', '.localhost', 'netlify.com']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', '.herokuapp.com', '.localhost', 'netlify.com', 'localhost', *]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin.apps.SimpleAdminConfig',
-#    'django.contrib.admin',
+#   'django.contrib.admin.apps.SimpleAdminConfig',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adventure',
     'api',
-    'util',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',

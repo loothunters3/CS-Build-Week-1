@@ -9,12 +9,12 @@ import uuid
 class Room(models.Model):
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
-    terrain = models.IntegerField(default=0)
+    terrain = models.IntegerField()
     play_map = models.TextField()
     doors = models.TextField()
-    objects_ = models.TextField()
-    x = models.IntegerField(default=0)
-    y = models.IntegerField(default=0)
+    objects_in_room = models.TextField()
+    x = models.IntegerField()
+    y = models.IntegerField()
 
     def playerNames(self, currentPlayerID):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]

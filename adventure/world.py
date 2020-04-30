@@ -33,13 +33,31 @@ class World:
         self.seed = seed
         self.limit = limit if limit is not None else 501
         self.num_of_rooms = 1
-        self.grid[[0,0]] = self.generate_starting_room()
 
     def generate_starting_room(self):
-        room = Room(title="Outside Cave Entrance",
-               description="North of you, the cave mount beckons")
-        room.save()
-        return room
+        targ_coords = [0,0]
+        # generate the room from the seed and pervious doors
+        room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors=[])
+
+        # Generate random room name/desc/terrain
+        room_terrain = random.randint(1,4)
+        room_name, room_desc = self.gen_name_description(room_terrain)
+
+        new_room = Room(name=room_name, 
+                        description=room_desc,
+                        x=targ_coords[0],
+                        y=targ_coords[1],
+                        map=room_map,
+                        room_doors=room_doors,
+                        terrain=room_terrain,
+                        objects_in_room=room_objs)
+
+        # save the new room
+        new_room.save()
+        # add the new room to the grid at the target coords
+        self.grid[targ_coords] = new_room
+
+        return new_room
 
     def check_room(self, curr_room, direction):
         # Change coordinates to target room's coordinates
@@ -92,6 +110,7 @@ class World:
             # append the coordinates of the door going east in the play map
             # in the room to the west of the target coordinates
             doors_to_coord.append(self.grid[coord_w]['doors']['e'])
+
 
         # generate the room from the seed and pervious doors
         room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors=doors_to_coord)
@@ -167,6 +186,3 @@ class World:
     
 
 w = World()
-
-
-print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
