@@ -173,6 +173,3 @@ class World:
             descriptions.append(room_description)
             names.append(room_name)
         return descriptions,names
-    
-
-w = World()

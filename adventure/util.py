@@ -130,14 +130,6 @@ def gen_room(seed=None, prev_doors = []):
     for key, value in object_coords.items():
         map_[key[0]][key[1]] = value
 
-
-    # Print whole map in terminal
-    for y in range(0,len(map_)):
-        for x in range(0,len(map_[0])):
-            print(map_[y][x], end='')
-
-        print()
-
     return map_, current_doors, object_coords
 
 class Descriptor:
