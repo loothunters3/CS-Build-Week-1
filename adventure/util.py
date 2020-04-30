@@ -194,4 +194,4 @@ class Descriptor:
             descriptions.append(room_description)
             names.append(room_name)
     
-        return descriptions,names
+        return names, descriptions
