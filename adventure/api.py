@@ -80,3 +80,23 @@ def move(request):
 def say(request):
     # IMPLEMENT
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+
+@csrf_exempt
+@api_view(["GET"])
+def get_map(request):
+    x_max = 0
+    y_max = 0
+
+    for coord in world.grid.keys():
+        x_max = coord[0] if coord[0] > x_max else pass
+        y_max = coord[1] if coord[1] > y_max else pass
+
+    map_grid = [list([0]*x_max) for x in range(0,y_max)]
+
+    for coord, value in world.grid.items():
+        value_data = {}
+        value_data['title'] = value.title
+        value_data['chests'] = value.objects_in_room.values.count('16')
+        map_grid[coord[1]][coord[0]] = value_data
+
+    return JsonResponse({'map':map_grid}, safe=True)
