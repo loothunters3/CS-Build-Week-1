@@ -37,7 +37,7 @@ def gen_room(seed=None, prev_doors = []):
 
     current_doors = {}
 
-    for door_coordinates in prev_doors.values():
+    for door_coordinates in prev_doors:
         prev_door_x = door_coordinates[0]
         prev_door_y = door_coordinates[1]
         # left to right door

@@ -22,7 +22,7 @@ class World:
     def generate_starting_room(self):
         targ_coords = [0,0]
         # generate the room from the seed and pervious doors
-        room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors={})
+        room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors=[])
 
         # Generate random room name/desc/terrain
         room_terrain = random.randint(1,4)
@@ -50,7 +50,7 @@ class World:
         targ_coords = self.change_coords(curr_room=curr_room, direction=direction)
         # Check if those coordinates are in the map grid
         # If they are, return true. Else return false
-        if targ_coords in self.grid:
+        if tuple(targ_coords) in self.grid:
             return True
         else:
             return False
@@ -62,7 +62,8 @@ class World:
         doors_to_coord = []
 
         # find coordinates of room to north
-        coord_n = change_coords(direction='n', curr_coords=targ_coords)
+        coord_n = self.change_coords(direction='n', curr_coords=targ_coords)
+        coord_n = tuple(coord_n)
         # Check if northern coords are in grid
         # (room is already generated)
         if coord_n in self.grid:
@@ -71,7 +72,8 @@ class World:
             doors_to_coord.append(self.grid[coord_n]['doors']['s'])
 
         # find coordinates of room to east
-        coord_e = change_coords(direction='e', curr_coords=targ_coords)
+        coord_e = self.change_coords(direction='e', curr_coords=targ_coords)
+        coord_e = tuple(coord_e)
         # Check if eastern coords are in grid
         # (room is already generated)
         if coord_e in self.grid:
@@ -80,7 +82,8 @@ class World:
             doors_to_coord.append(self.grid[coord_e]['doors']['w'])
 
         # find coordinates of room to south
-        coord_s = change_coords(direction='s', curr_coords=targ_coords)
+        coord_s = self.change_coords(direction='s', curr_coords=targ_coords)
+        coord_s = tuple(coord_s)
         # Check if southern coords are in grid
         # (room is already generated)
         if coord_s in self.grid:
@@ -89,7 +92,8 @@ class World:
             doors_to_coord.append(self.grid[coord_s]['doors']['n'])
 
         # find coordinates of room to west
-        coord_w = change_coords(direction='w', curr_coords=targ_coords)
+        coord_w = self.change_coords(direction='w', curr_coords=targ_coords)
+        coord_w = tuple(coord_w)
         # Check if western coords are in grid
         # (room is already generated)
         if coord_w in self.grid:
@@ -129,7 +133,7 @@ class World:
     def change_coords(self, direction, curr_room=None, curr_coords=None):
         # If current room was passed, use that room's data
         if curr_room is not None:
-            targ_coords = [curr_room.x, current_room.y]
+            targ_coords = [curr_room.x, curr_room.y]
         # Else if the current coordinates were passed, use those
         elif curr_coords is not None:
             targ_coords = curr_coords

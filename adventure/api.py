@@ -23,7 +23,8 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    room_data = room.play_map
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'map':room_data}, safe=True)
 
 
 @csrf_exempt
@@ -40,22 +41,22 @@ def move(request):
     nextRoomID = None
     if direction == "n":
         if world.check_room(curr_room=room, direction=direction):
-            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+            nextRoomID = world.grid[tuple(world.change_coords(curr_room=room, direction=direction))].id
         else:
             nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     elif direction == "s":
         if world.check_room(curr_room=room, direction=direction):
-            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+            nextRoomID = world.grid[tuple(world.change_coords(curr_room=room, direction=direction))].id
         else:
             nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     elif direction == "e":
         if world.check_room(curr_room=room, direction=direction):
-            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+            nextRoomID = world.grid[tuple(world.change_coords(curr_room=room, direction=direction))].id
         else:
             nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     elif direction == "w":
         if world.check_room(curr_room=room, direction=direction):
-            nextRoomID = world.grid[world.change_coords(curr_room=room, direction=direction)].id
+            nextRoomID = world.grid[tuple(world.change_coords(curr_room=room, direction=direction))].id
         else:
             nextRoomID = world.generate_room(curr_room=room, direction=direction).id
     if nextRoomID is not None and nextRoomID > 0:
