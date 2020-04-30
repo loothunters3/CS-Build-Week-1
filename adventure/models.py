@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 import uuid
 
 class Room(models.Model):
-    title = models.CharField(max_length=50, default="DEFAULT TITLE")
+    title = models.CharField(max_length=100, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
     terrain = models.IntegerField()
     play_map = models.TextField()
