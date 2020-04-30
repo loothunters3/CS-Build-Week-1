@@ -139,3 +139,51 @@ def gen_room(seed=None, prev_doors = []):
         print()
 
     return map_, current_doors, object_coords
+
+class Descriptor:
+    def __init__(self):
+        self.desert = ['dry', 'hot', 'extreme', 'uninhabited', 'barren', 'bare', 'solitary', 'desolate', 'bleak', 'wanton',
+            'bleak', 'unsmiling', 'sweltering', 'sterile', 'sandy', 'thorny', 'dismal', 'treeless', 'dried-up',
+            'uncharted', 'flat', 'savage', 'empty', 'lifeless', 'lonesome', 'vast', 'windswept', 'hostile',
+            'untouched', 'scorched', 'thirsty', 'dismal', 'sun-baked', 'unexplored', 'formidable', 'vacant',
+            'inaccessible', 'harsh', 'uncomprimising']
+        self.desert_noun = ['country', 'wilderness', 'flatland', 'sand dune', 'wasteland', 'badland', 'desert']
+        spring = ['grassy', 'dewy', 'green', 'breezy', 'blooming', 'lush', 'welcome', 'natural', 'wonderful', 'charming',
+                    'verdant', 'abundant', 'succulent', 'delectable', 'opulent', 'luscious', 'fresh', 'teeming', 'ripe',
+                    'prolific', 'fresh', 'florishing']
+        self.spring_noun = ['knoll', 'meadow', 'pasture', 'prairie', 'field', 'garden', 'plain']
+        snowy = ['freezing', 'arctic', 'chilly', 'snowy', 'cold', 'snow-covered', 'formidable', 'powdery', 'endless', 'lonesome',
+                'white', 'glacial', 'inaccessible', 'sparkingly', 'icy', 'vast', 'fresh', 'dazzling', 'crystalline', 'great', 'bitter',
+                'unknown', 'pristine', 'quiescent', 'majestic', 'immense', 'half-melted', 'unrivaled', 'trechorous']
+        self.snowy_noun = ['tundra', 'wonderland', 'glacier', 'pole']
+        self.grave_yard = ['spooky', 'haunting', 'chilling', 'grim', 'gloomy', 'grotesque', 'gothic', 'silent', 'quiet',
+                    'disused', 'unkempt', 'strange', 'scary', 'ancient', 'lonesome', 'ramsackle', 'old', 'abyssal',
+                    'shabby', 'half-forgotten', 'eerie', 'wretched', 'obscure', 'dingy', 'bleak', 'deserted', 'vacant', 'torrid']
+        self.grave_yard_noun = ['cemetery', 'gravesite', 'graveyard', 'resting place', 'city of the dead', 'eternal home']
+        self.name = ['Magical', 'Mystical', 'Mysterious', 'Curious', 'Hidden', 'Impenetrable', 'Enchanted', 'Fascinating',
+                'Unusual', 'Enchanted', 'Mighty', 'Supreme', 'Wicked', 'Spellbound', 'Spooky', 'Forbidden', 'Welcoming',
+                'Enticing', 'Delightful', 'Magnetic', 'Chilling', 'Creepy', 'Eerie', "Looter's", 'Treasure', "Miguel's",
+                "Dylan's", "Maggie's", "Hunter's", 'Secret', 'Verboten']
+        self.phrases = ['Do you see any treasure chests?', 'Should you move on?', 'Where to next?', 'What would you like to do?',
+                    'How much loot have you found?', 'Continue on to find the treasure room!', 'Onward!']
+
+    def gen_name_description(self, rooms):
+        descriptions = []
+        names = []
+        for room in rooms:
+            if room == 1:
+                room_description = f"You are now in an {', '.join(random.sample(desert, 2))} {random.sample(desert_noun, 1)[0]}. {random.sample(phrases, 1)[0]}"
+                room_name = f'{random.sample(name, 1)[0]} Desert'
+            elif room == 2:
+                room_description = f"You are now in an {', '.join(random.sample(spring, 2))} {random.sample(spring_noun, 1)[0]}. {random.sample(phrases, 1)[0]}"
+                room_name = f'{random.sample(name, 1)[0]} Field'
+            elif room == 3:
+                room_description = f"You are now in an {', '.join(random.sample(snowy, 2))} {random.sample(snowy_noun, 1)[0]}. {random.sample(phrases, 1)[0]}"
+                room_name = f'{random.sample(name, 1)[0]} Winter Wonderland'
+            else:
+                room_description = f"You are now in an {', '.join(random.sample(grave_yard, 2))} {random.sample(grave_yard_noun, 1)[0]}. {random.sample(phrases, 1)[0]}"
+                room_name = f"{random.sample(name, 1)[0]} Graveyard"
+            descriptions.append(room_description)
+            names.append(room_name)
+        print(descriptions)
+        print(names)

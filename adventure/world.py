@@ -5,32 +5,16 @@
 # procedural generation algorithm and use print_rooms()
 # to see the world.
 
-from .util import gen_room
+from .util import gen_room, Descriptor
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 import random
-
-# class Room:
-#     def __init__(self, id, name, description, x, y, map, room_doors, terrain, objects_):
-#         self.id = id
-#         self.name = name
-#         self.description = description
-#         self.play_map = map
-#         self.doors = room_doors
-#         self.terrain=terrain
-#         self.room_objs = objects_
-#         self.x = x
-#         self.y = y
-
-#     def __repr__(self):
-#         s = f"name={self.name}\ndesc={self.desc}\nterrain={self.terrain}\ndoors={self.doors}\ncoords=({self.x},{self.y})"
-#         return f"({self.x}, {self.y})"
-
 
 class World:
     def __init__(self, seed=None, limit=None):
         self.grid = {}
         self.seed = seed
+        self.descriptor = Descriptor()
         self.limit = limit if limit is not None else 501
         self.num_of_rooms = 1
         self.generate_starting_room()
@@ -38,11 +22,11 @@ class World:
     def generate_starting_room(self):
         targ_coords = [0,0]
         # generate the room from the seed and pervious doors
-        room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors=[])
+        room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors={})
 
         # Generate random room name/desc/terrain
         room_terrain = random.randint(1,4)
-        room_name, room_desc = self.gen_name_description(room_terrain)
+        room_name, room_desc = self.gen_name_description([room_terrain])
 
         new_room = Room(name=room_name, 
                         description=room_desc,
@@ -118,7 +102,7 @@ class World:
 
         # Generate random room name/desc/terrain
         room_terrain = random.randint(1,4)
-        room_name, room_desc = self.gen_name_description(room_terrain)
+        room_name, room_desc = self.gen_name_description([room_terrain])
 
         # Instantiate the new room with all the randomly generated stuff
         new_room = Room(name=room_name, 
@@ -165,7 +149,7 @@ class World:
         # return the modified coordinates
         return targ_coords
 
-    def gen_name_description(rooms):
+    def gen_name_description(self, rooms):
         descriptions = []
         names = []
         for room in rooms:
