@@ -61,6 +61,10 @@ INSTALLED_APPS = [
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
+MIDDLEWARE_CLASSES = (
+    'cors.CorsMiddleware' 
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -148,7 +152,8 @@ CORS_ORIGIN_ALLOW_ALL=True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
     "http://127.0.0.1:9000",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://loothunters.now.sh"
     ]
 
 # Internationalization
