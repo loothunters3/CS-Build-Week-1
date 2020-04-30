@@ -26,21 +26,22 @@ class World:
 
         # Generate random room name/desc/terrain
         room_terrain = random.randint(1,4)
-        room_name, room_desc = self.gen_name_description([room_terrain])
+        room_name, room_desc = self.descriptor.gen_name_description([room_terrain])
 
-        new_room = Room(name=room_name, 
+
+        new_room = Room(title=room_name, 
                         description=room_desc,
                         x=targ_coords[0],
                         y=targ_coords[1],
-                        map=room_map,
-                        room_doors=room_doors,
+                        play_map=room_map,
+                        doors=room_doors,
                         terrain=room_terrain,
                         objects_in_room=room_objs)
 
         # save the new room
         new_room.save()
         # add the new room to the grid at the target coords
-        self.grid[targ_coords] = new_room
+        self.grid[tuple(targ_coords)] = new_room
 
         return new_room
 
@@ -102,22 +103,22 @@ class World:
 
         # Generate random room name/desc/terrain
         room_terrain = random.randint(1,4)
-        room_name, room_desc = self.gen_name_description([room_terrain])
+        room_name, room_desc = self.descriptor.gen_name_description([room_terrain])
 
         # Instantiate the new room with all the randomly generated stuff
-        new_room = Room(name=room_name, 
+        new_room = Room(title=room_name, 
                         description=room_desc,
                         x=targ_coords[0],
                         y=targ_coords[1],
-                        map=room_map,
-                        room_doors=room_doors,
+                        play_map=room_map,
+                        doors=room_doors,
                         terrain=room_terrain,
-                        objects_=room_objs)
+                        objects_in_room=room_objs)
 
         # save the new room
         new_room.save()
         # add the new room to the grid at the target coords
-        self.grid[targ_coords] = new_room
+        self.grid[tuple(targ_coords)] = new_room
 
         # increment the num_of_rooms counter by 1
         self.num_of_rooms += 1
