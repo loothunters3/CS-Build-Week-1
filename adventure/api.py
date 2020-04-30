@@ -12,6 +12,9 @@ from .world import World
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
+world = World()
+world.save()
+
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -22,21 +25,6 @@ def initialize(request):
     room = player.room()
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
-
-@csrf_exempt
-def create_world(request):
-    data = request.data
-    try:
-        seed = data['seed']
-    except KeyError as ke:
-        seed = None
-    finally:
-        Room.objects.all().delete()
-
-    world = World(seed=seed)
-    world.save()
-
-    return HttpResponse(status_code=200)
 
 
 @csrf_exempt

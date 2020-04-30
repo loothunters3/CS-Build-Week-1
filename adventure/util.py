@@ -87,9 +87,10 @@ def gen_room(seed=None, prev_doors = []):
 
     # Use a dict to store coords as its keys are a set
     object_coords = {}
+    num_of_objects_to_gen = 12
 
     # Loop through 12 times
-    for x in range(0, 13):
+    for x in range(0, num_of_objects_to_gen+1):
         # Generate a random coordinate
         coord_obj = (random.randint(1,y_size-2), random.randint(1,x_size-2))
 
@@ -138,5 +139,3 @@ def gen_room(seed=None, prev_doors = []):
         print()
 
     return map_, current_doors, object_coords
-
-gen_room(100, {'n':[1, 0]})

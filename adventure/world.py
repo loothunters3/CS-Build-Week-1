@@ -33,6 +33,7 @@ class World:
         self.seed = seed
         self.limit = limit if limit is not None else 501
         self.num_of_rooms = 1
+        self.generate_starting_room()
 
     def generate_starting_room(self):
         targ_coords = [0,0]
