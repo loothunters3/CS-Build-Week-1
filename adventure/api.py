@@ -12,8 +12,6 @@ from .world import World
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
-world = World()
-
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
@@ -25,6 +23,16 @@ def initialize(request):
     players = room.playerNames(player_id)
     room_data = room.play_map
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'map':room_data}, safe=True)
+
+@csrf_exempt
+@api_view(["POST"])
+def gen_world(request):
+    global world
+    world = World()
+    player = request.user.player
+    player.currentRoom = world.grid[tuple((0,0))].id
+    player.save()
+    return HttpResponse(status=200)
 
 
 @csrf_exempt
@@ -88,15 +96,17 @@ def get_map(request):
     y_max = 0
 
     for coord in world.grid.keys():
-        x_max = coord[0] if coord[0] > x_max else pass
-        y_max = coord[1] if coord[1] > y_max else pass
+        x_max = coord[0] if coord[0] > x_max else x_max
+        y_max = coord[1] if coord[1] > y_max else y_max
 
-    map_grid = [list([0]*x_max) for x in range(0,y_max)]
+    map_grid = [list([0]*(x_max+1)) for x in range(0,y_max+1)]
 
     for coord, value in world.grid.items():
         value_data = {}
         value_data['title'] = value.title
-        value_data['chests'] = value.objects_in_room.values.count('16')
+        value_data['chests'] = list(value.objects_in_room.values()).count('16')
         map_grid[coord[1]][coord[0]] = value_data
+
+    map_grid.reverse()
 
     return JsonResponse({'map':map_grid}, safe=True)

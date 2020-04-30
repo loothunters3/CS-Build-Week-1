@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from adventure.models import Player, Room
 import random
 
-class World:
+class World():
     def __init__(self, seed=None, limit=None):
         self.grid = {}
         self.seed = seed
