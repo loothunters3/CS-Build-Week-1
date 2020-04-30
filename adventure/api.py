@@ -12,8 +12,6 @@ from .world import World
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 
-world = World()
-
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
