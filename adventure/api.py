@@ -79,7 +79,7 @@ def move(request):
 
     if cw.check_room(curr_room=room, direction=direction):
         targ_coords = change_coords(direction=direction, curr_room=room)
-        nextRoomID = cw.coords[targ_coords]
+        nextRoomID = cw.coords[str(targ_coords)]
     else:
         nextRoomID = cw.generate_room(curr_room=room, direction=direction)
             
