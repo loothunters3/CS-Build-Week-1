@@ -39,13 +39,13 @@ def change_coords(direction, curr_room=None, curr_coords=None):
 
         # Check the direction and modify the x,y coordinate accordingly
         if direction == 'n':
-            targ_coords[1] += 1
-        elif direction == 'e':
             targ_coords[0] += 1
+        elif direction == 'e':
+            targ_coords[1] += 1
         elif direction == 's':
-            targ_coords[1] -= 1
-        elif direction == 'w':
             targ_coords[0] -= 1
+        elif direction == 'w':
+            targ_coords[1] -= 1
 
         # return the modified coordinates
         return targ_coords
