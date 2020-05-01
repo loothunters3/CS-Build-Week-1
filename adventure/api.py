@@ -61,8 +61,6 @@ def set_player_char(request):
 @csrf_exempt
 @api_view(["GET"])
 def get_player_char(request):
-    for x in request.__dict__.items():
-        print(x)
     player = request.user.player
     return JsonResponse({"char_id":player.char_id}, status=200, safe=True)
 
