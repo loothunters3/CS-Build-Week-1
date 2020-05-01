@@ -109,7 +109,7 @@ def save_user_player(sender, instance, **kwargs):
 #     from .models import Room, World_Model
 # import random
 
-def generate_starting_room():
+def generate_starting_room(wm):
     targ_coords = [0,0]
     # generate the room from the seed and pervious doors
     room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors=[])
@@ -121,6 +121,7 @@ def generate_starting_room():
 
     new_room = Room(title=room_name[0], 
                     description=room_desc[0],
+                    world=wm,
                     x=targ_coords[0],
                     y=targ_coords[1],
                     play_map=room_map,
