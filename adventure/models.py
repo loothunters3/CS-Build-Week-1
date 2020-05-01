@@ -112,7 +112,7 @@ def save_user_player(sender, instance, **kwargs):
 def generate_starting_room(wm):
     targ_coords = [0,0]
     # generate the room from the seed and pervious doors
-    room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors=[])
+    room_map, room_doors, room_objs = gen_room(seed=None, prev_doors=[])
 
     # Generate random room name/desc/terrain
     room_terrain = random.randint(1,4)
