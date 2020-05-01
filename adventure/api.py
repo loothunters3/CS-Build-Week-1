@@ -31,7 +31,7 @@ def gen_world(user, player):
     wm = World_Model()
     wm.save()
     start_room = generate_starting_room(wm)
-    wm.coords ={'[0,0]': str(start_room.id)}
+    wm.coords ={'[0, 0]': str(start_room.id)}
     wm.users.add(user)
     wm.save()
     if player.currentWorld:

@@ -21,6 +21,8 @@ class World_Model(models.Model):
         targ_coords = change_coords(curr_room=curr_room, direction=direction)
         # Check if those coordinates are in the current coords
         # If they are, return true. Else return false
+        print(targ_coords)
+        print(self.coords.keys())
         if str(targ_coords) in self.coords:
             return True
         else:
