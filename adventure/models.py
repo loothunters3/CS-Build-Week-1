@@ -39,7 +39,7 @@ class World_Model(models.Model):
             if str(coord_in_diro) in self.coords:
                 # Get room object from the room id at the coordinates in 
                 # that direction
-                room_obj = Room.objects.get(self.coords[coord_in_diro])
+                room_obj = Room.objects.get(self.coords[str(coord_in_diro)])
                 # Append the door coordinates of the opposite door direction
                 doors_to_coord.append(room_obj['doors'][opposite_dirs[diro]])
 
