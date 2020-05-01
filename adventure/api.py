@@ -96,6 +96,18 @@ def move(request):
     players = nextRoom.playerNames(player_id)
     currentPlayerUUIDs = room.playerUUIDs(player_id)
     nextPlayerUUIDs = nextRoom.playerUUIDs(player_id)
+
+    print('current Room map')
+    for y in eval(room.play_map):
+        for x in y:
+            print(str(x).replace('0','.'), end='')
+        print()
+
+    print('next room map')
+    for y in eval(nextRoom.play_map):
+        for x in y:
+            print(str(x).replace('0','.'), end='')
+        print()
     # for p_uuid in currentPlayerUUIDs:
     #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
     # for p_uuid in nextPlayerUUIDs:

@@ -29,13 +29,15 @@ class World_Model(models.Model):
     def generate_room(self, curr_room, direction):
         targ_coords = change_coords(curr_room=curr_room, direction=direction)
         doors_to_coord = []
+        print(targ_coords)
 
         dirs = ['n','e','s','w']
         opposite_dirs = ['s','w','n','e']
 
         for diro in range(0,4):
-            coord_in_diro = change_coords(direction=dirs[diro], curr_coords=targ_coords)
+            coord_in_diro = change_coords(direction=dirs[diro], curr_coords=targ_coords.copy())
 
+            print((type(coord_in_diro), coord_in_diro))
             if str(coord_in_diro) in self.coords:
                 # Get room object from the room id at the coordinates in 
                 # that direction
@@ -117,8 +119,8 @@ def generate_starting_room():
     room_name, room_desc = self.descriptor.gen_name_description([room_terrain])
 
 
-    new_room = Room(title=room_name, 
-                    description=room_desc,
+    new_room = Room(title=room_name[0], 
+                    description=room_desc[0],
                     x=targ_coords[0],
                     y=targ_coords[1],
                     play_map=room_map,
@@ -144,13 +146,13 @@ def change_coords(direction, curr_room=None, curr_coords=None):
 
         # Check the direction and modify the x,y coordinate accordingly
         if direction == 'n':
-            targ_coords[1] += 1
-        elif direction == 'e':
             targ_coords[0] += 1
+        elif direction == 'e':
+            targ_coords[1] += 1
         elif direction == 's':
-            targ_coords[1] -= 1
-        elif direction == 'w':
             targ_coords[0] -= 1
+        elif direction == 'w':
+            targ_coords[1] -= 1
 
         # return the modified coordinates
         return targ_coords
@@ -187,7 +189,11 @@ def gen_room(seed=None, prev_doors = []):
             elif(y == y_size-1 and x != x_size-1 and x != 0):
                 map_[y][x] = 6
     
-    
+    print('after generating edge terrain')
+    for y in map_:
+        for x in y:
+            print(str(x).replace('0','.'), end='')
+        print()
     # Transfer the position of the previous door to its mirrored position in the new room
 
     current_doors = {}
@@ -197,23 +203,35 @@ def gen_room(seed=None, prev_doors = []):
         prev_door_y = door_coordinates[0]
         # left to right door
         if prev_door_x == 0:
-            current_doors['e'] = [prev_door_y, prev_door_x + x_size-1]
+            current_doors['e'] = [prev_door_y, prev_door_x + (x_size-1)]
             map_[prev_door_y][prev_door_x + x_size-1] = 10
         # Right to left door
         elif prev_door_x == x_size-1:
-            current_doors['w'] = [prev_door_y, prev_door_x - x_size-1]
+            current_doors['w'] = [prev_door_y, prev_door_x - (x_size-1)]
             map_[prev_door_y][prev_door_x - x_size-1] = 12
         # Top to bottom door
         elif prev_door_y == 0:
-            current_doors['s'] = [prev_door_y + y_size - 1, prev_door_x]
+            current_doors['s'] = [prev_door_y + (y_size - 1), prev_door_x]
             map_[prev_door_y + y_size - 1][prev_door_x] = 11
         # Bottom to top door
         elif prev_door_y == y_size-1:
-            current_doors['n'] = [prev_door_y - y_size -1, prev_door_x]
+            current_doors['n'] = [prev_door_y - (y_size-1), prev_door_x]
             map_[prev_door_y - y_size -1][prev_door_x] = 9
 
     # Set the random modules seed
     random.seed(seed)
+
+    print('current doors to this room')
+    print(current_doors)
+
+    print('previous doors to this room')
+    print(prev_doors)
+
+    print('after adding current doors')
+    for y in map_:
+        for x in y:
+            print(str(x).replace('0','.'), end='')
+        print()
 
     num_new_doors = random.randint(0,4-len(current_doors))
 
@@ -237,6 +255,12 @@ def gen_room(seed=None, prev_doors = []):
                 current_doors[target_dir] = [random.randint(1,y_size-2), 0]
                 map_[current_doors[target_dir][0]][current_doors[target_dir][1]] = 12
             num_new_doors -= 1
+
+    print('after adding new doors')
+    for y in map_:
+        for x in y:
+            print(str(x).replace('0','.'), end='')
+        print()
 
     # Generate positions of objects, 4 of each kind
 
