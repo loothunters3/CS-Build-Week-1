@@ -160,7 +160,7 @@ def change_coords(direction, curr_room=None, curr_coords=None):
 def gen_room(seed=None, prev_doors = []):
     x_size = 24
     y_size = 16
-    map_ = [list(['0']*x_size) for x in range(0,y_size)]
+    map_ = [list([0]*x_size) for x in range(0,y_size)]
     # Generate Edge Terrain
     for y in range(0,len(map_)):
         for x in range(0,len(map_[0])):

@@ -127,7 +127,7 @@ def get_map(request):
         value = Room.objects.get(id=int(value))
         value_data = {}
         value_data['title'] = value.title
-        value_data['chests'] = list(eval(value.objects_in_room).values()).count('16')
+        value_data['chests'] = list(eval(value.objects_in_room).values()).count(16)
         map_grid[coord[1]+abs(y_min)][coord[0]+abs(x_min)] = value_data
 
     map_grid.reverse()
