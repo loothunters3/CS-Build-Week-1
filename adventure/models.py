@@ -334,7 +334,8 @@ class Descriptor:
         self.name = ['Magical', 'Mystical', 'Mysterious', 'Curious', 'Hidden', 'Impenetrable', 'Enchanted', 'Fascinating',
                 'Unusual', 'Enchanted', 'Mighty', 'Supreme', 'Wicked', 'Spellbound', 'Spooky', 'Forbidden', 'Welcoming',
                 'Enticing', 'Delightful', 'Magnetic', 'Chilling', 'Creepy', 'Eerie', "Looter's", 'Treasure', "Miguel's",
-                "Dylan's", "Maggie's", "Hunter's", 'Secret', 'Verboten']
+                "Dylan's", "Maggie's", "Hunter's", 'Secret', 'Verboten','Scorched', 'Fabled', 'Wretched', 'Dismal', 'Forlorn', 'Forsaken', 'Futile', 'Spectral', 'Ghastly', 'Arcadian',
+          'Barbarous', 'Baleful', 'Ethereal', 'Languid', 'Macabre', 'Munificent', 'Nefarious', 'Squalid', 'Crawling']
         self.phrases = ['Do you see any treasure chests?', 'Should you move on?', 'Where to next?', 'What would you like to do?',
                     'How much loot have you found?', 'Continue on to find the treasure room!', 'Onward!']
 
