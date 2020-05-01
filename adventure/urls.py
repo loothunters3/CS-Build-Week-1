@@ -6,5 +6,9 @@ urlpatterns = [
     url('move', api.move),
     url('say', api.say),
     url('getmap', api.get_map),
-    url('genworld', api.gen_world)
+    # Generate a new world
+    url('resetworld', api.reset_world),
+    # Character Character get/set
+    url('setplaychar', api.set_player_char),
+    url('getplaychar', api.get_player_char)
 ]

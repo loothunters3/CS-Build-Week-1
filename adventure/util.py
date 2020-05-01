@@ -1,4 +1,54 @@
+from .models import Room, World_Model
 import random
+
+def generate_starting_room(world):
+    targ_coords = [0,0]
+    # generate the room from the seed and pervious doors
+    room_map, room_doors, room_objs = gen_room(seed=None, prev_doors=[])
+
+    # Generate random room name/desc/terrain
+    room_terrain = random.randint(1,4)
+    room_name, room_desc = Descriptor().gen_name_description([room_terrain])
+
+
+    new_room = Room(title=room_name, 
+                    description=room_desc,
+                    x=targ_coords[0],
+                    y=targ_coords[1],
+                    play_map=room_map,
+                    doors=room_doors,
+                    terrain=room_terrain,
+                    objects_in_room=room_objs,
+                    world=world)
+
+    # save the new room
+    new_room.save()
+
+    return new_room
+
+def change_coords(direction, curr_room=None, curr_coords=None):
+        # If current room was passed, use that room's data
+        if curr_room is not None:
+            targ_coords = [curr_room.x, curr_room.y]
+        # Else if the current coordinates were passed, use those
+        elif curr_coords is not None:
+            targ_coords = curr_coords
+        # Else return 
+        else:
+            return
+
+        # Check the direction and modify the x,y coordinate accordingly
+        if direction == 'n':
+            targ_coords[1] += 1
+        elif direction == 'e':
+            targ_coords[0] += 1
+        elif direction == 's':
+            targ_coords[1] -= 1
+        elif direction == 'w':
+            targ_coords[0] -= 1
+
+        # return the modified coordinates
+        return targ_coords
 
 def gen_room(seed=None, prev_doors = []):
     x_size = 24
