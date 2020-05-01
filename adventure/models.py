@@ -39,9 +39,11 @@ class World_Model(models.Model):
             if str(coord_in_diro) in self.coords:
                 # Get room object from the room id at the coordinates in 
                 # that direction
-                room_obj = Room.objects.get(self.coords[str(coord_in_diro)])
+                room_obj = Room.objects.get(id=self.coords[str(coord_in_diro)])
                 # Append the door coordinates of the opposite door direction
-                doors_to_coord.append(room_obj['doors'][opposite_dirs[diro]])
+                doors = eval(room_obj.doors)
+                if opposite_dirs[diro] in doors:
+                    doors_to_coord.append(doors[opposite_dirs[diro]])
 
         # generate the room from the seed and pervious doors
         room_map, room_doors, room_objs = gen_room(seed=self.seed, prev_doors=doors_to_coord)
@@ -156,7 +158,7 @@ def change_coords(direction, curr_room=None, curr_coords=None):
 def gen_room(seed=None, prev_doors = []):
     x_size = 24
     y_size = 16
-    map_ = [list(['.']*x_size) for x in range(0,y_size)]
+    map_ = [list(['0']*x_size) for x in range(0,y_size)]
     # Generate Edge Terrain
     for y in range(0,len(map_)):
         for x in range(0,len(map_[0])):
@@ -191,8 +193,8 @@ def gen_room(seed=None, prev_doors = []):
     current_doors = {}
 
     for door_coordinates in prev_doors:
-        prev_door_x = door_coordinates[0]
-        prev_door_y = door_coordinates[1]
+        prev_door_x = door_coordinates[1]
+        prev_door_y = door_coordinates[0]
         # left to right door
         if prev_door_x == 0:
             current_doors['e'] = [prev_door_y, prev_door_x + x_size-1]

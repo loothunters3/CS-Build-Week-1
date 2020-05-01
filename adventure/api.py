@@ -55,6 +55,7 @@ def reset_world(request):
 def set_player_char(request):
     player = request.user.player
     player.char_id = request.data['char_id']
+    player.save()
     return HttpResponse(status=200)
 
 @csrf_exempt
@@ -106,16 +107,20 @@ def say(request):
 def get_map(request):
     player = request.user.player
     world = player.currentWorld
-
+    
+    x_min = 0
+    y_min = 0
     x_max = 0
     y_max = 0
 
     for coord in world.coords:
         coord = eval(coord)
+        x_min = coord[0] if coord[0] < x_min else x_min
+        y_min = coord[1] if coord[1] < y_min else y_min
         x_max = coord[0] if coord[0] > x_max else x_max
         y_max = coord[1] if coord[1] > y_max else y_max
 
-    map_grid = [list([0]*(x_max+1)) for x in range(0,y_max+1)]
+    map_grid = [list([0]*(x_max+1+abs(x_min))) for x in range(y_min,y_max+1)]
 
     for coord, value in world.coords.items():
         coord = eval(coord)
@@ -123,7 +128,7 @@ def get_map(request):
         value_data = {}
         value_data['title'] = value.title
         value_data['chests'] = list(eval(value.objects_in_room).values()).count('16')
-        map_grid[coord[1]][coord[0]] = value_data
+        map_grid[coord[1]+abs(y_min)][coord[0]+abs(x_min)] = value_data
 
     map_grid.reverse()
 
