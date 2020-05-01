@@ -24,8 +24,14 @@ def initialize(request):
 
     room = Room.objects.get(id=player.currentRoom)
     players = room.playerNames(player_id)
-    room_map = room.play_map
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'map':room_map}, safe=True)
+    return JsonResponse({'uuid': uuid,
+                         'name':player.user.username,
+                         'title':room.title,
+                         'description':room.description,
+                         'players':players,
+                         'map':room.play_map,
+                         'terrain':room.terrain},
+                         safe=True)
 
 def gen_world(user, player):
     wm = World_Model()
@@ -94,7 +100,14 @@ def move(request):
     #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
     # for p_uuid in nextPlayerUUIDs:
     #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-    return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+    return JsonResponse({'uuid': player.uuid,
+                         'name':player.user.username,
+                         'title':nextRoom.title,
+                         'description':nextRoom.description,
+                         'players':players,
+                         'map':nextRoom.play_map,
+                         'terrain':nextRoom.terrain},
+                         safe=True)
 
 @csrf_exempt
 @api_view(["POST"])

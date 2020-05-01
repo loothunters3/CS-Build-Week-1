@@ -21,8 +21,6 @@ class World_Model(models.Model):
         targ_coords = change_coords(curr_room=curr_room, direction=direction)
         # Check if those coordinates are in the current coords
         # If they are, return true. Else return false
-        print(targ_coords)
-        print(self.coords.keys())
         if str(targ_coords) in self.coords:
             return True
         else:
@@ -55,8 +53,8 @@ class World_Model(models.Model):
         room_name, room_desc = Descriptor().gen_name_description([room_terrain])
 
         # Instantiate the new room with all the randomly generated stuff
-        new_room = Room(title=room_name, 
-                        description=room_desc,
+        new_room = Room(title=room_name[0], 
+                        description=room_desc[0],
                         x=targ_coords[0],
                         y=targ_coords[1],
                         play_map=room_map,
