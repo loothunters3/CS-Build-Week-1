@@ -166,7 +166,7 @@ def gen_room(seed=None, prev_doors = []):
     object_coords[chest_coords] = 16
 
     # Test to see if a second chest will spawn (20% chance)
-    if random.randint(0,100) >= 20:
+    if random.randint(0,100) <= 20:
         # Generate a second chest coordinates
         chest_coords = (random.randint(1,y_size-2), random.randint(1,x_size-2))
         # while the chest_coords are in the keys of the dict, generate new coords
