@@ -11,8 +11,8 @@ def generate_starting_room(world):
     room_name, room_desc = Descriptor().gen_name_description([room_terrain])
 
 
-    new_room = Room(title=room_name, 
-                    description=room_desc,
+    new_room = Room(title=room_name[0], 
+                    description=room_desc[0],
                     x=targ_coords[0],
                     y=targ_coords[1],
                     play_map=room_map,
